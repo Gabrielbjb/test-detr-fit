@@ -137,7 +137,7 @@ def main(args):
             "lr": args.lr_backbone,
         },
     ]
-    optimizer = torch.optim.AdamW(param_dicts, lr=args.lr,
+    optimizer = torch.optim.SGD(param_dicts, lr=args.lr,
                                   weight_decay=args.weight_decay)
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, args.lr_drop)
 
