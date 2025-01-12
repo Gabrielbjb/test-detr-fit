@@ -119,7 +119,7 @@ def make_coco_transforms(image_set):
     ])
 
     # Menentukan ukuran baru yang diinginkan
-    resize_transform = T.Resize((360, 480))  # Resize ke ukuran 480x360
+    resize_transform = T.Resize((360, 640))  # Resize ke ukuran 480x360
 
     if image_set == 'train':
         return T.Compose([
