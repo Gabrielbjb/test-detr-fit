@@ -181,8 +181,23 @@ class Resize(object):
     def __init__(self, size):
         self.size = size
 
-    def __call__(self, img):
-        return T.Resize(self.size)(img)
+    def __call__(self, img, target):
+        # Resize hanya gambar, target (annotations) tetap dipertahankan
+        img = T.Resize(self.size)(img)
+        
+        # Pastikan ukuran target juga diperbarui jika perlu
+        if target is not None:
+            # Jika ada kotak pembatas ("boxes"), sesuaikan ukurannya
+            if "boxes" in target:
+                w, h = img.size
+                boxes = target["boxes"]
+                target["boxes"] = boxes * torch.tensor([w / target["size"][1], h / target["size"][0], w / target["size"][1], h / target["size"][0]])
+            
+            # Update ukuran target
+            target["size"] = torch.tensor([h, w])
+        
+        return img, target
+
 
 class RandomHorizontalFlip(object):
     def __init__(self, p=0.5):
