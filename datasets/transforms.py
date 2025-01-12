@@ -177,6 +177,12 @@ class CenterCrop(object):
         crop_left = int(round((image_width - crop_width) / 2.))
         return crop(img, target, (crop_top, crop_left, crop_height, crop_width))
 
+class Resize(object):
+    def __init__(self, size):
+        self.size = size
+
+    def __call__(self, img):
+        return T.Resize(self.size)(img)
 
 class RandomHorizontalFlip(object):
     def __init__(self, p=0.5):
